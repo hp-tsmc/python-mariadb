@@ -1,0 +1,27 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: example
+    volumes:
+      - ./employees.sql:/tmp/employees.sql
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+  applier:
+    image: hpdevelop/python38-mariadb:0.1
+    restart: always
+    command:
+      - sleep
+      - infinity
+    environment:
+      MARIADB_ROOT_PASSWORD: example
